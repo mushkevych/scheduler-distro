@@ -33,7 +33,7 @@ process_context = {
         queue='',
         routing='',
         exchange='',
-        present_on_boxes=['dev.*']),
+        present_on_boxes=['dev.*', 'scheduler']),
 
     PROCESS_SITE_DAILY: managed_context_entry(
         process_name=PROCESS_SITE_DAILY,

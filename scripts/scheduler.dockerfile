@@ -41,9 +41,9 @@ RUN mkdir -p /var/log/synergy-scheduler/
 
 RUN /opt/synergy_scheduler/launch.py install
 
-# start Synergy Scheduler daemon
-ENTRYPOINT ["/opt/synergy_scheduler/entrypoint.sh"]
-CMD ["Scheduler"]
+# set BoxID to *scheduler* and start Synergy Scheduler daemon
+ENTRYPOINT ["/opt/synergy_scheduler/scripts/entrypoint.sh"]
+CMD ["scheduler", "Scheduler"]
 
 # port number the container should expose
 EXPOSE 5000

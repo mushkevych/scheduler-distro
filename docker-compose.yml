@@ -10,8 +10,8 @@ networks:
     driver: bridge
 
 services:
-  syn-mongo:
-    container_name: syn-mongo
+  syn-mongodb:
+    container_name: syn-mongodb
     image: mongo:3
     ports:
       # HOST:CONTAINER
@@ -61,5 +61,26 @@ services:
       - syn-network
     restart: "unless-stopped"
     depends_on:
-      - syn-mongo
+      - syn-mongodb
+      - syn-rabbitmq-config
+
+  synergy-worker:
+    # Container names are unique; once a custom name is specified, attempting to scale beyond 1 results in an error
+    container_name: synergy-worker
+#    entrypoint: /bin/bash
+#    command: |
+#      "
+#        set -e
+#        source ~/.env/api/bin/activate
+#        p-api config
+#        /bin/bash || exit 0
+#      "
+    build:
+      context: .
+      dockerfile: scripts/worker.dockerfile
+    networks:
+      - syn-network
+    restart: "unless-stopped"
+    depends_on:
+      - syn-mongodb
       - syn-rabbitmq-config
