@@ -1,0 +1,62 @@
+language: python
+
+# use container-based travis-ci infrastructure
+#sudo: false
+
+# use legacy infrastructure
+sudo: required
+
+matrix:
+  include:
+    - python: "2.7"
+      env: PYTHON_BINARY="python2.7"
+      before_install:
+        - pip install virtualenv
+
+    - python: "3.4"
+      env: PYTHON_BINARY="python3.4"
+      addons:
+        apt:
+          packages:
+          - python3-setuptools
+          - python3-dev
+      before_install:
+# deactivate Travis-CI Python3 VirtualEnv, as it conflicts with the launch.py one
+        - deactivate
+
+    - python: "3.5"
+      env: PYTHON_BINARY="python3.5"
+      addons:
+        apt:
+          packages:
+          - python3-setuptools
+          - python3-dev
+      before_install:
+# deactivate Travis-CI Python3 VirtualEnv, as it conflicts with the launch.py one
+        - deactivate
+
+services:
+  - rabbitmq
+  - mongodb
+
+before_script:
+  - sudo rabbitmq-plugins enable rabbitmq_management
+  - sudo service rabbitmq-server restart
+  - wget http://127.0.0.1:15672/cli/rabbitmqadmin -O ${TRAVIS_BUILD_DIR}/rabbitmqadmin
+  - python2.7 ${TRAVIS_BUILD_DIR}/rabbitmqadmin declare exchange name=ex_utils type=direct
+  - python2.7 ${TRAVIS_BUILD_DIR}/rabbitmqadmin declare exchange name=ex_managed_worker type=direct
+  - python2.7 ${TRAVIS_BUILD_DIR}/rabbitmqadmin declare exchange name=ex_freerun_worker type=direct
+
+install:
+  - mkdir -p /tmp/logs/synergy-scheduler
+  - ${PYTHON_BINARY} launch.py install
+  - ${PYTHON_BINARY} launch.py db --reset
+
+script:
+  - ${PYTHON_BINARY} launch.py test
+
+branches:
+  only:
+    - master
+    - 1.18
+    - 1.19
