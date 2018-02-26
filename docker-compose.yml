@@ -10,6 +10,12 @@ networks:
     driver: bridge
 
 services:
+  synergy-base:
+    image: synergy-base:0.1
+    build:
+      context: .
+      dockerfile: scripts/base.dockerfile
+
   syn-mongodb:
     container_name: syn-mongodb
     image: mongo:3

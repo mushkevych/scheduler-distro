@@ -1,48 +1,16 @@
 # docker commands:
-# docker system prune -a --volumes
-# docker build . --tag mushkevych/scheduler:2.0
-# docker run --network=schedulergit_syn-network --detach --name syn-scheduler --publish 5000:5000 mushkevych/scheduler:2.0
-# docker -D run --name synergy-scheduler --network=schedulergit_syn-network -p 5000:5000 -it mushkevych/scheduler:2.0 /bin/bash
+# docker build . --tag mushkevych/worker:2.0
+# docker run --network=schedulerdistrogit_syn-network --detach --name syn-worker --publish 5000:5000 mushkevych/worker:2.0
+# docker -D run --name synergy-worker --network=schedulerdistrogit_syn-network -p 5000:5000 -it mushkevych/worker:2.0 /bin/bash
 
-# list of alpine packages: https://pkgs.alpinelinux.org/packages
-FROM alpine:3.7
+# synergy-base is build from base.dockerfile
+FROM synergy-base:0.1
 
 LABEL maintainer="mushkevych@gmail.com"
-LABEL synergy_scheduler.docker.version="0.1"
-
-# OS-level required packages:
-#   * dumb-init: a proper init system for containers, to reap zombie children
-#   * linux-headers: commonly needed, and an unusual package name from Alpine.
-#   * build-base: include basic development packages (gcc, g++, etc)
-#   * bash gawk sed grep bc coreutils: bash & shell utils
-#   * ca-certificates: for SSL verification during Pip and easy_install
-ENV PACKAGES="\
-  dumb-init \
-  linux-headers \
-  build-base \
-  bash gawk sed grep bc curl coreutils \
-  ca-certificates \
-"
-RUN apk add --no-cache ${PACKAGES}
-
-# add python3 and python3 dev
-RUN apk add --no-cache python3 python3-dev && \
-    python3 -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
-#    pip3 install --upgrade pip setuptools && \
-    if [[ ! -e /usr/bin/pip ]]; then ln -s pip3 /usr/bin/pip; fi && \
-    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-    if [[ -d /root/.cache ]]; then rm -r /root/.cache; fi
-
-COPY . /opt/synergy_scheduler
-WORKDIR /opt/synergy_scheduler/
-
-RUN mkdir -p /var/log/synergy-scheduler/
-
-RUN /opt/synergy_scheduler/launch.py install
+LABEL synergy_worker.docker.version="0.1"
 
 # set BoxID to *dev* and start Supervisor daemon
-ENTRYPOINT ["/opt/synergy_scheduler/scripts/entrypoint.sh"]
+ENTRYPOINT ["/opt/synergy-distro/scripts/entrypoint.sh"]
 CMD ["dev", "Supervisor"]
 
 # port number the container should expose
