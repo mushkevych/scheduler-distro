@@ -17,8 +17,8 @@ Git repositories of included projects:
 ---------
 [Synergy Scheduler GitHub page](https://github.com/mushkevych/scheduler)  
 [Synergy Flow GitHub page](https://github.com/mushkevych/synergy_flow)  
-[GitHub project page](https://github.com/mushkevych/sdpl)  
-[GitHub project page](https://github.com/mushkevych/scheduler-distro)  
+[SDPL GitHub project page](https://github.com/mushkevych/sdpl)  
+[Distro GitHub project page](https://github.com/mushkevych/scheduler-distro)  
 
 
 Metafile:
