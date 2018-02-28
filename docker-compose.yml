@@ -3,20 +3,14 @@ version: "3.5"
 # TODO: add volume creation on the host for syn-mongo
 # TODO: add volume to the syn-rabbitmq container
 # TODO: add volume for synergy-scheduler settings/flow/context files
-# TODO: add worker container
 
 networks:
   syn-network:
     driver: bridge
 
 services:
-  synergy-base:
-    image: synergy-base:0.1
-    build:
-      context: .
-      dockerfile: scripts/base.dockerfile
-
   syn-mongodb:
+    # Container names are unique; once a custom name is specified, attempting to scale beyond 1 results in an error
     container_name: syn-mongodb
     image: mongo:3
     ports:
@@ -43,7 +37,6 @@ services:
     restart: "unless-stopped"
 
   syn-rabbitmq-config:
-    # Container names are unique; once a custom name is specified, attempting to scale beyond 1 results in an error
     container_name: syn-rabbitmq-config
     build:
       context: ./scripts
@@ -54,8 +47,15 @@ services:
     depends_on:
       - syn-rabbitmq
 
+  synergy-base:
+    # parent image for synergy-scheduler and synergy-workers
+    image: synergy-base:0.1
+    build:
+      context: .
+      dockerfile: scripts/base.dockerfile
+
   synergy-scheduler:
-    # Container names are unique; once a custom name is specified, attempting to scale beyond 1 results in an error
+    # Scheduler is best deployed as a singleton
     container_name: synergy-scheduler
     build:
       context: .
@@ -70,17 +70,9 @@ services:
       - syn-mongodb
       - syn-rabbitmq-config
 
-  synergy-worker:
-    # Container names are unique; once a custom name is specified, attempting to scale beyond 1 results in an error
-    container_name: synergy-worker
-#    entrypoint: /bin/bash
-#    command: |
-#      "
-#        set -e
-#        source ~/.env/api/bin/activate
-#        p-api config
-#        /bin/bash || exit 0
-#      "
+  synergy-workers:
+    # spawn all workers in one container.
+    container_name: synergy-workers
     build:
       context: .
       dockerfile: scripts/worker.dockerfile
