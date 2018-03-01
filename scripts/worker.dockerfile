@@ -12,6 +12,3 @@ LABEL synergy_worker.docker.version="0.1"
 # set BoxID to *dev* and start Supervisor daemon
 ENTRYPOINT ["/opt/synergy-distro/scripts/entrypoint.sh"]
 CMD ["dev", "Supervisor"]
-
-# port number the container should expose
-EXPOSE 5000
