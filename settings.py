@@ -1,6 +1,6 @@
-ENVIRONMENT = '%ENVIRONMENT%'
-
 from datetime import datetime
+from os import environ
+ENVIRONMENT = environ.get('SYN_ENVIRONMENT', 'dev')
 
 # folder locations, connection properties etc
 settings = dict(
@@ -28,10 +28,7 @@ settings = dict(
 )
 
 # Update current dict with the environment-specific settings
-try:
-    overrides = __import__('settings_' + ENVIRONMENT)
-except:
-    overrides = __import__('settings_dev')
+overrides = __import__('configurations.settings_{0}'.format(ENVIRONMENT))
 settings.update(overrides.settings)
 
 

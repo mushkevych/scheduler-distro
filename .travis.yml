@@ -1,11 +1,5 @@
 language: python
 
-python:
-    - "2.7"
-    - "3.4"
-    - "3.5"
-    - "3.6"
-
 # use container-based travis-ci infrastructure
 #sudo: false
 
@@ -39,6 +33,10 @@ matrix:
     - python: "3.5"
       env: PYTHON_BINARY="python3.5"
       addons:
+        hosts:
+          # hostnames will be enlisted in /etc/hosts and resolved to 127.0.0.1
+          - syn-rabbitmq
+          - syn-mongodb
         apt:
           packages:
           - python3-setuptools
@@ -47,6 +45,10 @@ matrix:
     - python: "3.6"
       env: PYTHON_BINARY="python3.6"
       addons:
+        hosts:
+          # hostnames will be enlisted in /etc/hosts and resolved to 127.0.0.1
+          - syn-rabbitmq
+          - syn-mongodb
           packages:
           - python3-setuptools
           - python3-dev
