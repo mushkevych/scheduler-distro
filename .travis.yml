@@ -73,6 +73,7 @@ install:
 
 before_script:
   - sudo mkdir --mode=777 -p /var/log/synergy-distro
+  - cp settings_dev.py configuration/
   - ${PYTHON_BINARY} launch.py install
   - python3 launch.py db --reset
 
