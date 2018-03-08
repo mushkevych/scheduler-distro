@@ -204,7 +204,7 @@ timetable_context = {
 
 # Update current dict with the environment-specific settings
 try:
-    overrides = __import__('configuration.context_{0}'.format(ENVIRONMENT))
+    overrides = __import__('context_{0}'.format('dev'), fromlist=['configuration'])
 
     if hasattr(overrides, 'process_context'):
         process_context.update(overrides.process_context)

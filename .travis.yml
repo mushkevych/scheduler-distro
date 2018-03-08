@@ -39,6 +39,7 @@ matrix:
           - syn-mongodb
         apt:
           packages:
+          - python3.5
           - python3-setuptools
           - python3-dev
 
@@ -51,6 +52,7 @@ matrix:
           - syn-mongodb
         apt:
           packages:
+          - python3.6
           - python3-setuptools
           - python3-dev
 
