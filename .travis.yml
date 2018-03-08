@@ -49,6 +49,7 @@ matrix:
           # hostnames will be enlisted in /etc/hosts and resolved to 127.0.0.1
           - syn-rabbitmq
           - syn-mongodb
+        apt:
           packages:
           - python3-setuptools
           - python3-dev
