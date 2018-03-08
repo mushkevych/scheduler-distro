@@ -76,7 +76,7 @@ services:
       - SYN_ENVIRONMENT=${SYN_ENVIRONMENT}
     volumes:
       # /HOST:/CONTAINER
-      - "/etc/synergy-scheduler:/opt/synergy-distro/configurations"
+      - "/etc/synergy-scheduler:/opt/synergy-distro/configuration"
     networks:
       - syn-network
     restart: "unless-stopped"
@@ -94,7 +94,7 @@ services:
       - SYN_ENVIRONMENT=${SYN_ENVIRONMENT}
     volumes:
       # /HOST:/CONTAINER
-      - "/etc/synergy-workers:/opt/synergy-distro/configurations"
+      - "/etc/synergy-workers:/opt/synergy-distro/configuration"
     networks:
       - syn-network
     restart: "unless-stopped"
