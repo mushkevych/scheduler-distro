@@ -1,5 +1,5 @@
 # list of alpine packages: https://pkgs.alpinelinux.org/packages
-FROM alpine:3.7
+FROM alpine:3.10
 
 RUN apk add --no-cache bash curl wget
 

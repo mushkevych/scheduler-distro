@@ -79,17 +79,17 @@ commonlist=(
     "synergy_scheduler-2.0.tar.gz"
 )
 
-if [ -z "$1" ]; then
+if [[ -z "$1" ]]; then
     echo "Parameter #1 is missing: path to project root"
     exit 1
 fi
 
-if [ -z "$2" ]; then
+if [[ -z "$2" ]]; then
     echo "Parameter #2 is missing: path to target virtual environment"
     exit 1
 fi
 
-if [ -z "$3" ]; then
+if [[ -z "$3" ]]; then
     echo "Parameter #3 is missing: Python major version"
     exit 1
 fi
@@ -111,13 +111,13 @@ echo "DEBUG: easy_install_bin=${easy_install_bin}"
 
 # ccache speeds up recompilation by caching previous compilations
 which ccache > /dev/null 2>&1
-if [ $? == 0 ]; then
+if [[ $? == 0 ]]; then
     export CC="ccache gcc"
     export CXX="ccache g++"    
 fi
 
 # Ignore some CLANG errors on OSX else install will fail
-if [ `uname` == "Darwin" ]; then
+if [[ `uname` == "Darwin" ]]; then
     export ARCHFLAGS="-arch i386 -arch x86_64"
     export CFLAGS=-Qunused-arguments
     export CPPFLAGS=-Qunused-arguments

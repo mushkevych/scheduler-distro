@@ -2,7 +2,7 @@
 
 # Stop all containers
 containers=`docker ps -a -q`
-if [ -n "${containers}" ] ; then
+if [[ -n "${containers}" ]] ; then
         docker stop ${containers}
 fi
 

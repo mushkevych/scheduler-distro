@@ -28,7 +28,7 @@ settings = dict(
 )
 
 # Update current dict with the environment-specific settings
-overrides = __import__('settings_{0}'.format(ENVIRONMENT), fromlist=['configuration'])
+overrides = __import__('configuration.settings_{0}'.format(ENVIRONMENT), fromlist=['configuration'])
 settings.update(overrides.settings)
 
 

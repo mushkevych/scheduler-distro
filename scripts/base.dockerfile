@@ -1,13 +1,13 @@
 # docker commands:
 # docker system prune -a --volumes
-# docker build . --tag mushkevych/synergy-base:0.1
-# docker -D run --name synergy-base --network=schedulerdistrogit_syn-network -p 5000:5000 -it mushkevych/base:2.0 /bin/bash
+# docker build . --tag mushkevych/synergy-base:0.2 --file scripts/base.dockerfile
+# docker -D run --name synergy-base --network=schedulerdistrogit_syn-network -it mushkevych/synergy-base:0.2 /bin/bash
 
 # list of alpine packages: https://pkgs.alpinelinux.org/packages
-FROM alpine:3.7
+FROM alpine:3.10
 
 LABEL maintainer="mushkevych@gmail.com"
-LABEL synergy_base.docker.version="0.1"
+LABEL synergy_base.docker.version="0.2"
 
 # OS-level required packages:
 #   * dumb-init: a proper init system for containers, to reap zombie children
@@ -24,14 +24,13 @@ ENV PACKAGES="\
 "
 RUN apk add --no-cache ${PACKAGES}
 
-# add python3 and python3 dev
+# add python3, python3-dev and pip
 RUN apk add --no-cache python3 python3-dev && \
     python3 -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
-    pip3 install --upgrade pip setuptools && \
+    pip3 install --no-cache --upgrade pip setuptools wheel && \
     if [[ ! -e /usr/bin/pip ]]; then ln -s pip3 /usr/bin/pip; fi && \
-    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-    if [[ -d /root/.cache ]]; then rm -r /root/.cache; fi
+    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi
 
 COPY . /opt/synergy-distro
 WORKDIR /opt/synergy-distro/

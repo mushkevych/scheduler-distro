@@ -1,7 +1,7 @@
 version: "3.5"
 
 # :param SYN_ENVIRONMENT
-# SYN_ENVIRONMENT={dev|qa|prod}; docker-compose up
+# export SYN_ENVIRONMENT={dev|qa|prod}; docker-compose up
 
 # NOTICE: syn-mongodb volume requires /data/db folder to be created on the host
 # NOTICE: syn-rabbitmq volume requires /var/lib/rabbitmq folder to be created on the host
@@ -58,7 +58,7 @@ services:
 
   synergy-base:
     # parent image for synergy-scheduler and synergy-workers
-    image: synergy-base:0.1
+    image: mushkevych/synergy-base:0.2
     build:
       context: .
       dockerfile: scripts/base.dockerfile
