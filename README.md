@@ -42,8 +42,8 @@ Metafile:
     /db/                  root folder for illustration suite database components - models, dao, schema
 
 
-Os-Level Dependencies
+OS-Level Dependencies
 ---------
 1. linux/unix  
-1. python 2.7+ / 3.5+
+1. python 3.6+
 1. docker, docker-compose
