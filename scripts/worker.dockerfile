@@ -1,7 +1,10 @@
 # docker commands:
 # docker build . --tag mushkevych/worker:2.0 --file scripts/worker.dockerfile
 # docker run --network=schedulerdistrogit_syn-network --detach --name syn-worker mushkevych/worker:2.0
-# docker -D run --name synergy-worker --network=schedulerdistrogit_syn-network -it mushkevych/worker:2.0 /bin/bash
+# docker -D run --name synergy-workers --network=schedulerdistrogit_syn-network -it mushkevych/worker:2.0 /bin/bash
+#
+# connect to running container:
+# docker exec -it synergy-workers /bin/bash
 
 # synergy-base is build from base.dockerfile
 FROM mushkevych/synergy-base:0.2

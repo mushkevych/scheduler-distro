@@ -2,6 +2,9 @@
 # docker build . --tag mushkevych/scheduler:2.0 --file scripts/scheduler.dockerfile
 # docker run --network=schedulerdistrogit_syn-network --detach --name syn-scheduler --publish 5000:5000 mushkevych/scheduler:2.0
 # docker -D run --name synergy-scheduler --network=schedulerdistrogit_syn-network --publish 5000:5000 -it mushkevych/scheduler:2.0 /bin/bash
+#
+# connect to running container:
+# docker exec -it synergy-scheduler /bin/bash
 
 # synergy-base is build from base.dockerfile
 FROM mushkevych/synergy-base:0.2

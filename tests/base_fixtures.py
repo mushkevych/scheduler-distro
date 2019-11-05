@@ -29,13 +29,13 @@ class TestMessage(object):
         self.delivery_tag = None
 
 
-def get_field_starting_with(prefix, module):
+def get_field_starting_with(prefix, fqn_module):
     """method reads Python module and iterates thru all its fields
     Those that are starting with defined prefix are returned as list
     :param prefix: define prefix. For example EXPECTED_YEARLY_TEMPLATE
-    :param module: defines fully qualified name of the Python module. For example tests.yearly_fixtures"""
+    :param fqn_module: defines fully qualified name of the Python module. For example tests.yearly_fixtures"""
     fields = []
-    for name, value in inspect.getmembers(module):
+    for name, value in inspect.getmembers(fqn_module):
         if name.startswith(prefix):
             fields.append(value)
 
@@ -69,13 +69,18 @@ def create_unit_of_work(process_name,
     """ method creates and returns unit_of_work """
     process_obj = context.process_context[process_name]
 
+    try:
+        end_timeperiod = time_helper.increment_timeperiod(process_obj.time_qualifier, timeperiod)
+    except:
+        end_timeperiod = timeperiod
+
     uow = UnitOfWork()
     uow.process_name = process_name
     uow.timeperiod = timeperiod
     uow.start_id = start_id
     uow.end_id = end_id
     uow.start_timeperiod = timeperiod
-    uow.end_timeperiod = timeperiod
+    uow.end_timeperiod = end_timeperiod
     uow.created_at = created_at
     uow.submitted_at = submitted_at
     uow.source = process_obj.source if hasattr(process_obj, 'source') else None

@@ -19,6 +19,15 @@ mv /opt/synergy-distro/context_*.py /opt/synergy-distro/configuration/ || true
 # step 3: define a boxid and start the process
 SYN_BOX_ID=${1:-dev}
 PROC_NAME=${2:-Scheduler}
-
 /usr/bin/python /opt/synergy-distro/launch.py super --boxid ${SYN_BOX_ID}
+
+SCHEDULER_DB_MARKER="/opt/synergy-distro/configuration/scheduler_db.marker"
+if [[ ${PROC_NAME} == "Scheduler" ]]; then
+    if [[ ! -f ${SCHEDULER_DB_MARKER} ]]; then
+        /usr/bin/python /opt/synergy-distro/launch.py db --reset;
+        /usr/bin/python /opt/synergy-distro/launch.py super --reset
+        touch ${SCHEDULER_DB_MARKER}
+    fi
+fi
+
 /usr/bin/python /opt/synergy-distro/launch.py start --console ${PROC_NAME}

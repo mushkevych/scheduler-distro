@@ -25,9 +25,9 @@ ENV PACKAGES="\
 RUN apk add --no-cache ${PACKAGES}
 
 # add python3, python3-dev and pip
+# NOTE: do not remove ensurepip module
 RUN apk add --no-cache python3 python3-dev && \
     python3 -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
     pip3 install --no-cache --upgrade pip setuptools wheel && \
     if [[ ! -e /usr/bin/pip ]]; then ln -s pip3 /usr/bin/pip; fi && \
     if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi

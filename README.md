@@ -1,9 +1,9 @@
 Synergy Scheduler Distribution
 =========
 
-This repository serves as a distro for Synergy Scheduler, Synergy Flow, SDPL and Synergy Workers.  
+This repository serves as a distro for Synergy Scheduler, Synergy Flow, Synergy Workers.  
 Project provides Docker containers for Synergy Scheduler and Synergy Workers; 
-docker-compose for the complete env: Scheduler, Workers, MongoDB, RabbitMQ
+docker-compose for the complete env: Scheduler, Workers, MongoDB, RabbitMQ;
 
 
 License:
@@ -21,7 +21,6 @@ Git repositories of included projects:
 ---------
 [Synergy Scheduler GitHub page](https://github.com/mushkevych/scheduler)  
 [Synergy Flow GitHub page](https://github.com/mushkevych/synergy_flow)  
-[SDPL GitHub project page](https://github.com/mushkevych/sdpl)  
 [Distro GitHub project page](https://github.com/mushkevych/scheduler-distro)  
 
 
@@ -35,6 +34,7 @@ Metafile:
     /context.py           configuration management - registrar of all known processes
     /settings.py          configuration management - environment-specific settings
     /setup.py             Distutils setup script
+    /configuration/       folder contains settings.xxx file which becomes visible to container
     /scripts/             folder contains Dockerfiles and shell helper scripts 
     /tests/               folder contains unit test
     /vendors/             folder contains Python libraries required by the project and installed in Python Virtual Environment
@@ -45,5 +45,5 @@ Metafile:
 OS-Level Dependencies
 ---------
 1. linux/unix  
-1. python 3.6+
+1. python 3.7+
 1. docker, docker-compose
