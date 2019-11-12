@@ -36,8 +36,8 @@ services:
       - "5672:5672"
       - "15672:15672"
     environment:
-      - RABBITMQ_DEFAULT_USER = guest
-      - RABBITMQ_DEFAULT_PASS = guest
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
     volumes:
       # /HOST:/CONTAINER
       - "/var/lib/rabbitmq:/var/lib/rabbitmq"
