@@ -3,6 +3,10 @@ version: "3.5"
 # :param SYN_ENVIRONMENT
 # export SYN_ENVIRONMENT={dev|qa|prod}; docker-compose up
 
+# Private registry awareness. By default PRIVATE_REGISTRY_URI is empty string
+# NOTICE: PRIVATE_REGISTRY_URI must end with a slash '/'
+# export PRIVATE_REGISTRY_URI=registry.thecompany.com/scheduler-distro/
+
 # NOTICE: syn-mongodb volume requires /data/db folder to be created on the host
 # NOTICE: syn-rabbitmq volume requires /var/lib/rabbitmq folder to be created on the host
 # NOTICE: synergy-scheduler volume requires /etc/synergy-scheduler/ folder to be created on the host
@@ -17,7 +21,7 @@ services:
   syn-mongodb:
     # Container names are unique; once a custom name is specified, attempting to scale beyond 1 results in an error
     container_name: syn-mongodb
-    image: mongo:3
+    image: ${PRIVATE_REGISTRY_URI}mongo:3
     ports:
       # HOST:CONTAINER
       - "27017:27017"
@@ -30,7 +34,7 @@ services:
 
   syn-rabbitmq:
     container_name: syn-rabbitmq
-    image: rabbitmq:3-management
+    image: ${PRIVATE_REGISTRY_URI}rabbitmq:3-management
     ports:
       # HOST:CONTAINER
       - "5672:5672"
@@ -47,9 +51,14 @@ services:
 
   syn-rabbitmq-config:
     container_name: syn-rabbitmq-config
+    image: ${PRIVATE_REGISTRY_URI}mushkevych/syn-rabbitmq-config:latest
+
     build:
       context: ./scripts
       dockerfile: rabbitmq_config.dockerfile
+      args:
+        private_registry_uri: ${PRIVATE_REGISTRY_URI}
+
     networks:
       - syn-network
     restart: "no"
@@ -58,17 +67,24 @@ services:
 
   synergy-base:
     # parent image for synergy-scheduler and synergy-workers
-    image: mushkevych/synergy-base:0.2
+    image: ${PRIVATE_REGISTRY_URI}mushkevych/synergy-base:latest
     build:
       context: .
       dockerfile: scripts/base.dockerfile
+      args:
+        private_registry_uri: ${PRIVATE_REGISTRY_URI}
 
   synergy-scheduler:
     # Scheduler is best deployed as a singleton
     container_name: synergy-scheduler
+    image: ${PRIVATE_REGISTRY_URI}mushkevych/synergy-scheduler:latest
+
     build:
       context: .
       dockerfile: scripts/scheduler.dockerfile
+      args:
+        private_registry_uri: ${PRIVATE_REGISTRY_URI}
+
     ports:
       # HOST:CONTAINER
       - "0.0.0.0:5000:5000"
@@ -87,9 +103,14 @@ services:
   synergy-workers:
     # spawn all workers in one container.
     container_name: synergy-workers
+    image: ${PRIVATE_REGISTRY_URI}mushkevych/synergy-workers:latest
+
     build:
       context: .
       dockerfile: scripts/worker.dockerfile
+      args:
+        private_registry_uri: ${PRIVATE_REGISTRY_URI}
+
     environment:
       - SYN_ENVIRONMENT=${SYN_ENVIRONMENT}
     volumes:

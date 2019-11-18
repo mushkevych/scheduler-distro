@@ -1,5 +1,8 @@
+# argument passed from docker-compose.yml with default value of empty string
+ARG private_registry_uri=
+
 # list of alpine packages: https://pkgs.alpinelinux.org/packages
-FROM alpine:3.10
+FROM ${private_registry_uri}alpine:3.10
 
 RUN apk add --no-cache bash curl wget
 

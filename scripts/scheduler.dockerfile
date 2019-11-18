@@ -6,11 +6,14 @@
 # connect to running container:
 # docker exec -it synergy-scheduler /bin/bash
 
+# argument passed from docker-compose.yml with default value of empty string
+ARG private_registry_uri=
+
 # synergy-base is build from base.dockerfile
-FROM mushkevych/synergy-base:0.2
+FROM ${private_registry_uri}mushkevych/synergy-base:0.2
 
 LABEL maintainer="mushkevych@gmail.com"
-LABEL synergy_scheduler.docker.version="0.2"
+LABEL synergy-scheduler.docker.version="0.2"
 
 # set BoxID to *scheduler* and start Synergy Scheduler daemon
 ENTRYPOINT ["/opt/synergy-distro/scripts/entrypoint.sh"]

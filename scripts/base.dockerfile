@@ -3,11 +3,13 @@
 # docker build . --tag mushkevych/synergy-base:0.2 --file scripts/base.dockerfile
 # docker -D run --name synergy-base --network=schedulerdistrogit_syn-network -it mushkevych/synergy-base:0.2 /bin/bash
 
+ARG private_registry_uri=
+
 # list of alpine packages: https://pkgs.alpinelinux.org/packages
-FROM alpine:3.10
+FROM ${private_registry_uri}alpine:3.10
 
 LABEL maintainer="mushkevych@gmail.com"
-LABEL synergy_base.docker.version="0.2"
+LABEL synergy-base.docker.version="0.2"
 
 # OS-level required packages:
 #   * dumb-init: a proper init system for containers, to reap zombie children

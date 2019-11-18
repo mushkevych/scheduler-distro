@@ -34,7 +34,6 @@ settings.update(overrides.settings)
 
 # Modules to test and verify (pylint/pep8)
 testable_modules = [
-    'synergy',
     'db',
     'workers',
 ]

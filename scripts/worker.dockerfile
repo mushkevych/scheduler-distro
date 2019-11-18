@@ -6,11 +6,14 @@
 # connect to running container:
 # docker exec -it synergy-workers /bin/bash
 
+# argument passed from docker-compose.yml with default value of empty string
+ARG private_registry_uri=
+
 # synergy-base is build from base.dockerfile
-FROM mushkevych/synergy-base:0.2
+FROM ${private_registry_uri}mushkevych/synergy-base:0.2
 
 LABEL maintainer="mushkevych@gmail.com"
-LABEL synergy_worker.docker.version="0.2"
+LABEL synergy-worker.docker.version="0.2"
 
 # set BoxID to *dev* and start Supervisor daemon
 ENTRYPOINT ["/opt/synergy-distro/scripts/entrypoint.sh"]
