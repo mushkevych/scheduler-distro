@@ -1,10 +1,13 @@
 language: python
 
+# Ubuntu 18.04 (Bionic Beaver)
+dist: bionic
+
 # use container-based travis-ci infrastructure
 #sudo: false
 
 # use legacy infrastructure
-sudo: required
+#sudo: required
 
 matrix:
   include:
@@ -42,7 +45,7 @@ before_script:
   - sudo mkdir --mode=777 -p /var/log/synergy-distro
   - cp settings_dev.py configuration/
   - ${PYTHON_BINARY} launch.py install
-  - python3 launch.py db --reset
+  - ${PYTHON_BINARY} launch.py db --reset
 
 script:
   - python3 launch.py test
