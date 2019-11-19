@@ -21,9 +21,9 @@ matrix:
         apt:
           packages:
           - python3.7
-          - python3-venv
+          - python3.7-dev
+          - python3.7-venv
           - python3-setuptools
-          - python3-dev
 
 services:
   - docker
