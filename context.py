@@ -45,7 +45,7 @@ process_context = {
         state_machine_name=STATE_MACHINE_RECOMPUTING,
         blocking_type=BLOCKING_CHILDREN,
         trigger_frequency='every 900',
-        present_on_boxes=['dev.*']),
+        present_on_boxes=['workers.*']),
 
     PROCESS_SITE_HOURLY: managed_context_entry(
         process_name=PROCESS_SITE_HOURLY,
@@ -57,7 +57,7 @@ process_context = {
         state_machine_name=STATE_MACHINE_RECOMPUTING,
         blocking_type=BLOCKING_NORMAL,
         trigger_frequency='every 300',
-        present_on_boxes=['dev.*']),
+        present_on_boxes=['workers.*']),
 
     PROCESS_SITE_MONTHLY: managed_context_entry(
         process_name=PROCESS_SITE_MONTHLY,
@@ -69,7 +69,7 @@ process_context = {
         state_machine_name=STATE_MACHINE_CONTINUOUS,
         blocking_type=BLOCKING_NORMAL,
         trigger_frequency='every 10800',
-        present_on_boxes=['dev.*']),
+        present_on_boxes=['workers.*']),
 
     PROCESS_SITE_YEARLY: managed_context_entry(
         process_name=PROCESS_SITE_YEARLY,
@@ -81,7 +81,7 @@ process_context = {
         state_machine_name=STATE_MACHINE_CONTINUOUS,
         blocking_type=BLOCKING_NORMAL,
         trigger_frequency='every 21600',
-        present_on_boxes=['dev.*']),
+        present_on_boxes=['workers.*']),
 
     PROCESS_SESSION_WORKER_00: daemon_context_entry(
         process_name=PROCESS_SESSION_WORKER_00,
@@ -92,7 +92,7 @@ process_context = {
         exchange=EXCHANGE_RAW_DATA,
         pid_file='session_worker_00.pid',
         log_file='session_worker_00.log',
-        present_on_boxes=['dev.*']),
+        present_on_boxes=['workers.*']),
 
     PROCESS_STREAM_GEN: daemon_context_entry(
         process_name=PROCESS_STREAM_GEN,
@@ -101,7 +101,7 @@ process_context = {
         queue=QUEUE_RAW_DATA,
         routing=ROUTING_IRRELEVANT,
         exchange=EXCHANGE_RAW_DATA,
-        present_on_boxes=['dev.*']),
+        present_on_boxes=['workers.*']),
 
     PROCESS_CLIENT_DAILY: managed_context_entry(
         process_name=PROCESS_CLIENT_DAILY,
@@ -113,7 +113,7 @@ process_context = {
         state_machine_name=STATE_MACHINE_DISCRETE,
         blocking_type=BLOCKING_DEPENDENCIES,
         trigger_frequency='every 10800',
-        present_on_boxes=['dev.*']),
+        present_on_boxes=['workers.*']),
 
     PROCESS_CLIENT_MONTHLY: managed_context_entry(
         process_name=PROCESS_CLIENT_MONTHLY,
@@ -125,7 +125,7 @@ process_context = {
         state_machine_name=STATE_MACHINE_CONTINUOUS,
         blocking_type=BLOCKING_NORMAL,
         trigger_frequency='every 21600',
-        present_on_boxes=['dev.*']),
+        present_on_boxes=['workers.*']),
 
     PROCESS_CLIENT_YEARLY: managed_context_entry(
         process_name=PROCESS_CLIENT_YEARLY,
@@ -137,7 +137,7 @@ process_context = {
         state_machine_name=STATE_MACHINE_CONTINUOUS,
         blocking_type=BLOCKING_NORMAL,
         trigger_frequency='every 43200',
-        present_on_boxes=['dev.*']),
+        present_on_boxes=['workers.*']),
 
     PROCESS_ALERT_DAILY: managed_context_entry(
         process_name=PROCESS_ALERT_DAILY,
@@ -149,7 +149,7 @@ process_context = {
         state_machine_name=STATE_MACHINE_DISCRETE,
         blocking_type=BLOCKING_DEPENDENCIES,
         trigger_frequency='every 21600',
-        present_on_boxes=['dev.*']),
+        present_on_boxes=['workers.*']),
 
     PROCESS_SIMPLE_FLOW_DAILY: managed_context_entry(
         process_name=PROCESS_SIMPLE_FLOW_DAILY,
@@ -160,14 +160,14 @@ process_context = {
         state_machine_name=STATE_MACHINE_DISCRETE,
         blocking_type=BLOCKING_DEPENDENCIES,
         trigger_frequency='every 600',
-        present_on_boxes=['dev.*']),
+        present_on_boxes=['workers.*']),
 
     PROCESS_BASH_DRIVER: daemon_context_entry(
         process_name=PROCESS_BASH_DRIVER,
         classname='workers.bash_driver.BashDriver.start',
         token=TOKEN_BASH_DRIVER,
         exchange=EXCHANGE_FREERUN_WORKER,
-        present_on_boxes=['dev.*']),
+        present_on_boxes=['workers.*']),
 }
 
 
@@ -204,7 +204,7 @@ timetable_context = {
 
 # Update current dict with the environment-specific settings
 try:
-    overrides = __import__('configuration.context_{0}'.format('dev'), fromlist=['configuration'])
+    overrides = __import__('configuration.context_{0}'.format(ENVIRONMENT), fromlist=['configuration'])
 
     if hasattr(overrides, 'process_context'):
         process_context.update(overrides.process_context)

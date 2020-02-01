@@ -1,16 +1,17 @@
 version: "3.5"
 
-# :param SYN_ENVIRONMENT
-# export SYN_ENVIRONMENT={dev|qa|prod}; docker-compose up
+# :param SYN_ENVIRONMENT={dev|qa|prod}
+# :param SYN_START_TIMEPERIOD={YYYYMMDDHH}
+# export SYN_ENVIRONMENT={dev|qa|prod}; export SYN_START_TIMEPERIOD={YYYYMMDDHH}; docker-compose up
 
 # Private registry awareness. By default PRIVATE_REGISTRY_URI is empty string
 # NOTICE: PRIVATE_REGISTRY_URI must end with a slash '/'
 # export PRIVATE_REGISTRY_URI=registry.thecompany.com/scheduler-distro/
 
-# NOTICE: syn-mongodb volume requires /data/db folder to be created on the host
-# NOTICE: syn-rabbitmq volume requires /var/lib/rabbitmq folder to be created on the host
-# NOTICE: synergy-scheduler volume requires /etc/synergy-scheduler/ folder to be created on the host
-# NOTICE: synergy-workers volume requires /etc/synergy-workers/ folder to be created on the host
+# NOTICE: syn-mongodb volume requires /data/scheduler-distro/db folder to be created on the host
+# NOTICE: syn-rabbitmq volume requires /data/scheduler-distro/rabbitmq folder to be created on the host
+# NOTICE: synergy-scheduler volume requires /data/scheduler-distro/scheduler folder to be created on the host
+# NOTICE: synergy-workers volume requires /data/scheduler-distro/workers folder to be created on the host
 # @see: https://www.digitalocean.com/community/tutorials/how-to-share-data-between-the-docker-container-and-the-host
 
 networks:
@@ -29,7 +30,7 @@ services:
       - syn-network
     volumes:
       # /HOST:/CONTAINER
-      - "/data/db:/data/db"
+      - "/data/scheduler-distro/db:/data/db"
     restart: "unless-stopped"
 
   syn-rabbitmq:
@@ -44,7 +45,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=guest
     volumes:
       # /HOST:/CONTAINER
-      - "/var/lib/rabbitmq:/var/lib/rabbitmq"
+      - "/data/scheduler-distro/rabbitmq:/var/lib/rabbitmq"
     networks:
       - syn-network
     restart: "unless-stopped"
@@ -67,7 +68,7 @@ services:
 
   synergy-base:
     # parent image for synergy-scheduler and synergy-workers
-    image: ${PRIVATE_REGISTRY_URI}mushkevych/synergy-base:latest
+    image: ${PRIVATE_REGISTRY_URI}mushkevych/synergy-base:0.2
     build:
       context: .
       dockerfile: scripts/base.dockerfile
@@ -78,6 +79,7 @@ services:
     # Scheduler is best deployed as a singleton
     container_name: synergy-scheduler
     image: ${PRIVATE_REGISTRY_URI}mushkevych/synergy-scheduler:latest
+    privileged: true
 
     build:
       context: .
@@ -90,9 +92,11 @@ services:
       - "0.0.0.0:5000:5000"
     environment:
       - SYN_ENVIRONMENT=${SYN_ENVIRONMENT}
+      - SYN_START_TIMEPERIOD=${SYN_START_TIMEPERIOD}
     volumes:
       # /HOST:/CONTAINER
-      - "/etc/synergy-scheduler:/opt/synergy-distro/configuration"
+      - "/data/scheduler-distro/scheduler:/opt/synergy-distro/configuration"
+      - "/data/scheduler-distro/scheduler/log:/var/log/synergy-distro/"
     networks:
       - syn-network
     restart: "unless-stopped"
@@ -104,6 +108,7 @@ services:
     # spawn all workers in one container.
     container_name: synergy-workers
     image: ${PRIVATE_REGISTRY_URI}mushkevych/synergy-workers:latest
+    privileged: true
 
     build:
       context: .
@@ -113,9 +118,11 @@ services:
 
     environment:
       - SYN_ENVIRONMENT=${SYN_ENVIRONMENT}
+      - SYN_START_TIMEPERIOD=${SYN_START_TIMEPERIOD}
     volumes:
       # /HOST:/CONTAINER
-      - "/etc/synergy-workers:/opt/synergy-distro/configuration"
+      - "/data/scheduler-distro/workers:/opt/synergy-distro/configuration"
+      - "/data/scheduler-distro/workers/log:/var/log/synergy-distro/"
     networks:
       - syn-network
     restart: "unless-stopped"

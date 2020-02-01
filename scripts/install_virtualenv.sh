@@ -49,8 +49,8 @@ commonlist=(
     "Jinja2-2.10.1.tar.gz"
     "Werkzeug-0.15.4.tar.gz"
     "synergy_odm-0.9.tar.gz"
-    "synergy_flow-0.11.tar.gz"
-    "synergy_scheduler-2.1.tar.gz"
+    "synergy_flow-0.14.tar.gz"
+    "synergy_scheduler-2.2.tar.gz"
 
     # fabric
     "invoke-1.3.0.tar.gz"

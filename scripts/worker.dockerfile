@@ -15,6 +15,6 @@ FROM ${private_registry_uri}mushkevych/synergy-base:0.2
 LABEL maintainer="mushkevych@gmail.com"
 LABEL synergy-worker.docker.version="0.2"
 
-# set BoxID to *dev* and start Supervisor daemon
+# set BoxID to *workers* and start Supervisor daemon
 ENTRYPOINT ["/opt/synergy-distro/scripts/entrypoint.sh"]
-CMD ["dev", "Supervisor"]
+CMD ["workers", "Supervisor"]

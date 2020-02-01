@@ -3,7 +3,7 @@ Synergy Scheduler Distribution
 
 This repository serves as a distro for Synergy Scheduler, Synergy Flow, Synergy Workers.  
 Project provides Docker containers for Synergy Scheduler and Synergy Workers; 
-docker-compose for the complete env: Scheduler, Workers, MongoDB, RabbitMQ;
+docker-compose orchestrates the env: Scheduler, Workers, MongoDB, RabbitMQ;
 
 
 License:
