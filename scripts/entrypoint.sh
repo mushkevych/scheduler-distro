@@ -28,14 +28,13 @@ if [[ ${PROC_NAME} == "Scheduler" ]]; then
         /usr/bin/python /opt/synergy-distro/launch.py super --reset
         touch ${SCHEDULER_DB_MARKER}
     fi
+    /usr/bin/python /opt/synergy-distro/launch.py db --update
 fi
 
 SUPERVISOR_DB_MARKER="/opt/synergy-distro/configuration/supervisor_db.${SYN_BOX_ID}.marker"
 if [[ ${PROC_NAME} == "Supervisor" ]]; then
-    if [[ ! -f ${SUPERVISOR_DB_MARKER} ]]; then
-        sleep 10s   # wait for Scheduler to initialize DB
-        /usr/bin/python /opt/synergy-distro/launch.py super --update
-        touch ${SUPERVISOR_DB_MARKER}
-    fi
+    sleep 10s   # wait for Scheduler to initialize DB
+    /usr/bin/python /opt/synergy-distro/launch.py super --update
+    touch ${SUPERVISOR_DB_MARKER}
 fi
 /usr/bin/python /opt/synergy-distro/launch.py start --console ${PROC_NAME}
