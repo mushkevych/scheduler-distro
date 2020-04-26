@@ -6,4 +6,4 @@ if [[ -n "${containers}" ]] ; then
         docker stop ${containers}
 fi
 
-docker system prune -a --volumes
+docker system prune --all --volumes

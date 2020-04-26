@@ -32,6 +32,7 @@ commonlist=(
     "isort-4.3.21.tar.gz"
     "lazy-object-proxy-1.4.1.tar.gz"
     "wrapt-1.11.2.tar.gz"
+    "typed_ast-1.4.1.tar.gz"
     "astroid-2.2.5.tar.gz"
     "pylint-2.3.1.tar.gz"
 
@@ -47,10 +48,10 @@ commonlist=(
     "pymongo-3.8.0.tar.gz"
     "MarkupSafe-1.1.1.tar.gz"
     "Jinja2-2.10.1.tar.gz"
-    "Werkzeug-0.15.4.tar.gz"
+    "Werkzeug-1.0.1.tar.gz"
     "synergy_odm-0.9.tar.gz"
-    "synergy_flow-0.14.tar.gz"
-    "synergy_scheduler-2.2.tar.gz"
+    "synergy_flow-0.15.tar.gz --no-deps"
+    "synergy_scheduler-2.2.tar.gz --no-deps"
 
     # fabric
     "invoke-1.3.0.tar.gz"
